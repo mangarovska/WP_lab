@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="eng">
+<head>
+    <meta charset="utf-8">
+    <title>WP lab - Students in Course</title>
+
+</head>
+<body>
+<header>
+    <h1>Students in Course </h1>
+</header>
+<section>
+    <div th:text="${courseName}"></div>
+    <ul>
+        <li th:each="student : ${students}" th:text="${student.getName()} + ' ' + ${student.getSurname()} + '(' + ${student.getName().toLowerCase()} + '.' + ${student.getSurname().toLowerCase() + ')'}">
+        </li>
+
+    </ul>
+
+<!--    <div>Веб програмирање</div>-->
+<!--    <ul>-->
+<!--        <li>Петар Петров (petar.petrov)</li>-->
+<!--        <li>Јован Јованов (jovan.jovanov)</li>-->
+<!--    </ul>-->
+<!--    <a href="/listCourses">Back</a>-->
+</section>
+<a href="/courses">BACK</a>
+</body>
+</html>
