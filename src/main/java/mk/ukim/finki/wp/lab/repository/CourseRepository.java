@@ -46,7 +46,7 @@ public class CourseRepository {
 //            throw new ArgumentsNotValidException();
 //        }
 
-        CourseDataHolder.courses.removeIf(c -> c.getName().equals(name) && c.getTeacher().getId().equals(teacher.getId()));
+        CourseDataHolder.courses.removeIf(c -> c.getName().equals(name));
 
         Course course = new Course(name, description, teacher);
         CourseDataHolder.courses.add(course);

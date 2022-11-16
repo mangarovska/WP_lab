@@ -1,7 +1,10 @@
 package mk.ukim.finki.wp.lab.web.controllers;
 
 import mk.ukim.finki.wp.lab.model.Course;
+import mk.ukim.finki.wp.lab.model.Teacher;
+import mk.ukim.finki.wp.lab.repository.CourseRepository;
 import mk.ukim.finki.wp.lab.service.CourseService;
+import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +16,13 @@ import java.util.List;
 public class CourseController {
 
     public final CourseService courseService;
+    public final TeacherService teacherService;
+    public final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, TeacherService teacherService, CourseRepository courseRepository) {
         this.courseService = courseService;
+        this.teacherService = teacherService;
+        this.courseRepository = courseRepository;
     }
 
     @GetMapping
@@ -31,7 +38,7 @@ public class CourseController {
         return "listCourses"; //  html-ot
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add-course")
     public String saveCourse(@RequestParam String name,
                              @RequestParam String description,
                              @RequestParam Long id) {
@@ -49,5 +56,20 @@ public class CourseController {
     public String deleteCourse(@PathVariable Long id) {
         this.courseService.deleteById(id);
         return "redirect:/courses";
+    }
+
+    @GetMapping("/edit-form/{id}")
+    public String editProductPage(@PathVariable Long id, Model model) {
+        if (this.courseRepository.findById(id) != null) {
+            Course course = this.courseRepository.findById(id);
+            List<Teacher> teachers = this.teacherService.findAll();
+
+            model.addAttribute("course", course);
+            model.addAttribute("teacher", teachers);
+
+            return "add-course";
+        }
+
+        return "redirect:/courses?error=CourseNotFound";
     }
 }
