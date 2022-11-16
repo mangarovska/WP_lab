@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.service.Impl;
 
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.exceptions.ArgumentsNotValidException;
 import mk.ukim.finki.wp.lab.repository.StudentRepository;
 import mk.ukim.finki.wp.lab.service.StudentService;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student save(String username, String password, String name, String surname) {
+    public Student saveStudent(String username, String password, String name, String surname) {
+
         Student s = new Student(username, password, name, surname);
+
         if (s.getUsername().isEmpty() || s.getPassword().isEmpty() || s.getName().isEmpty() || s.getSurname().isEmpty()) {
             throw new IllegalArgumentException();
         }

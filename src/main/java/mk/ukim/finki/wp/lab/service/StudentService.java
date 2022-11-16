@@ -11,5 +11,5 @@ public interface StudentService {
 
     List<Student> searchByNameOrSurname(String text);
 
-    Student save(String username, String password, String name, String surname);
+    Student saveStudent(String username, String password, String name, String surname);
 }

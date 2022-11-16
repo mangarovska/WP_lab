@@ -1,7 +1,6 @@
 package mk.ukim.finki.wp.lab.web.servlets;
 
 import mk.ukim.finki.wp.lab.service.StudentService;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.servlet.ServletException;
@@ -40,7 +39,7 @@ public class CreateStudentServlet extends HttpServlet {
         String password = req.getParameter("password");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
-        studentService.save(username, password, name, surname);
+        studentService.saveStudent(username, password, name, surname);
 
         resp.sendRedirect("/AddStudent?courseId=" + req.getSession().getAttribute("chosenCourse")); // za da ne se izgubi Id
     }

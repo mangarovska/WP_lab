@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/courses")
@@ -17,12 +19,11 @@ public class CourseController {
 
     public final CourseService courseService;
     public final TeacherService teacherService;
-    public final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService, TeacherService teacherService, CourseRepository courseRepository) {
+    public CourseController(CourseService courseService, TeacherService teacherService) {
         this.courseService = courseService;
         this.teacherService = teacherService;
-        this.courseRepository = courseRepository;
+
     }
 
     @GetMapping
@@ -32,19 +33,27 @@ public class CourseController {
             model.addAttribute("error", error);
         }
 
-        List<Course> courses = this.courseService.listAllCourses();
-        model.addAttribute("courses", courseService.listAllCourses());
+        List<Course> coursesList = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName)).collect(Collectors.toList());
+        model.addAttribute("courses", coursesList);
 
         return "listCourses"; //  html-ot
     }
 
-    @PostMapping("/add-course")
+    @GetMapping("/add-course")
+    public String getAddCoursePage(Model model){
+        List<Teacher> teachers = this.teacherService.findAll();
+        model.addAttribute("teachers", teachers);
+
+        return "add-course";
+    }
+
+    @PostMapping("/added-course")
     public String saveCourse(@RequestParam String name,
                              @RequestParam String description,
                              @RequestParam Long id) {
 
         try {
-            courseService.save(name, description, id);
+            courseService.saveCourse(name, description, id);
         } catch (RuntimeException e) {
             return "redirect:/courses?error=" + e.getMessage();
         }
@@ -52,20 +61,21 @@ public class CourseController {
     }
 
     // /products?id=78 -> query parametar
-    @DeleteMapping("/delete/{id}") // vaka e so path variable
+    @GetMapping("/delete/{id}") // vaka e so path variable
     public String deleteCourse(@PathVariable Long id) {
-        this.courseService.deleteById(id);
+        courseService.deleteById(id);
         return "redirect:/courses";
     }
 
     @GetMapping("/edit-form/{id}")
-    public String editProductPage(@PathVariable Long id, Model model) {
-        if (this.courseRepository.findById(id) != null) {
-            Course course = this.courseRepository.findById(id);
+    public String editCoursePage(@PathVariable Long id, Model model) {
+        if (this.courseService.findCourseById(id) != null) {
+
+            Course course = this.courseService.findCourseById(id);
             List<Teacher> teachers = this.teacherService.findAll();
 
             model.addAttribute("course", course);
-            model.addAttribute("teacher", teachers);
+            model.addAttribute("teachers", teachers);
 
             return "add-course";
         }

@@ -1,6 +1,6 @@
 package mk.ukim.finki.wp.lab.web.servlets;
 
-import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.StudentService;
 import org.thymeleaf.context.WebContext;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "stud-enrol-servlet", urlPatterns = "/studentEnrollmentSummary")
@@ -32,19 +30,19 @@ public class StudentEnrollmentSummary extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long courseId = (long) req.getSession().getAttribute("chosenCourse");
+        Course course = (Course) req.getSession().getAttribute("chosenCourse");
 
         if (req.getParameter("student") == null) {
-            resp.sendRedirect("/AddStudent?courseId=" + courseId);
+            resp.sendRedirect("/AddStudent?courseId=" + course.getCourseId());
             return;
         }
 
         String S_username = req.getParameter("student");
-        courseService.addStudentInCourse(S_username, courseId);
+        courseService.addStudentInCourse(S_username, course.getCourseId());
 
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("students", courseService.listStudentsByCourse(courseId));
-        context.setVariable("courseName", courseService.listAllCourses().stream().filter(c -> c.getCourseId().equals(courseId)).collect(Collectors.toList()).get(0).getName());
+        context.setVariable("students", courseService.listStudentsByCourse(course.getCourseId()));
+        context.setVariable("courseName", courseService.listAllCourses().stream().filter(c -> c.getCourseId().equals(course.getCourseId())).collect(Collectors.toList()).get(0).getName());
         // gi zima site zapisani na predmetot so pomos na courseId
 
 
@@ -53,6 +51,6 @@ public class StudentEnrollmentSummary extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/listCourses");
+        resp.sendRedirect("/courses");
     }
 }

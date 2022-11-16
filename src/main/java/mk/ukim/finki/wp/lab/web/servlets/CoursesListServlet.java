@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.lab.web.servlets;
 
 
 import mk.ukim.finki.wp.lab.service.CourseService;
-import mk.ukim.finki.wp.lab.service.Impl.CourseServiceImpl;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (urlPatterns = "/listCourses")
+@WebServlet(urlPatterns = "/servlet/listCourses")
 public class CoursesListServlet extends HttpServlet {
 
     private final CourseService courseService;
@@ -26,8 +25,8 @@ public class CoursesListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        WebContext context=new WebContext(req,resp,req.getServletContext());
-        context.setVariable("courses",courseService.listAllCourses());
+        WebContext context = new WebContext(req, resp, req.getServletContext());
+        context.setVariable("courses", courseService.listAllCourses());
 
         //resp.setContentType("text/html; charset=UTF-8"); // za kirilica
 

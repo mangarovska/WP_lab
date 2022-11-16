@@ -1,6 +1,5 @@
 package mk.ukim.finki.wp.lab.bootstrap;
 
-import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.model.Teacher;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +13,11 @@ public class TeacherDataHolder {
     public static List<Teacher> teachers = new ArrayList<>();
 
     @PostConstruct
-    public void init(){
-        teachers.add(new Teacher("Igor", "Mishkovski"));
-        teachers.add(new Teacher("Kire", "Trivodaliev"));
-        teachers.add(new Teacher("Boban", "Joksimovski"));
-        teachers.add(new Teacher("Sasho", "Gramatikov"));
-        teachers.add(new Teacher("Kostadin", "Mishev"));
+    public void init() {
+        teachers.add(new Teacher(123444L, "Igor", "Mishkovski"));
+        teachers.add(new Teacher(231566L, "Kire", "Trivodaliev"));
+        teachers.add(new Teacher(444555L, "Boban", "Joksimovski"));
+        teachers.add(new Teacher(889756L, "Sasho", "Gramatikov"));
+        teachers.add(new Teacher(777888L, "Kostadin", "Mishev"));
     }
 }

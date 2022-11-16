@@ -1,6 +1,5 @@
 package mk.ukim.finki.wp.lab.web.filter;
 
-import mk.ukim.finki.wp.lab.bootstrap.CourseDataHolder;
 import mk.ukim.finki.wp.lab.model.Course;
 
 import javax.servlet.*;
@@ -22,10 +21,10 @@ public class AppFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        Long course = (Long) request.getSession().getAttribute("chosenCourse");
+        Course course = (Course) request.getSession().getAttribute("chosenCourse");
         String path = request.getServletPath(); // patekata do koja korisnikot probuva da pristapi
 
-        if (course == null && !"/AddStudent".equals(path) && !"/courses".equals(path)  && !"/main.css".equals(path)) {
+        if (course==null && !"/AddStudent".equals(path) && !path.contains("/courses") && !"/main.css".equals(path)) {
             response.sendRedirect("/courses?error=CourseNotSelectedException");
         } else {
             filterChain.doFilter(servletRequest, servletResponse); // ja prodolzuvame verigata

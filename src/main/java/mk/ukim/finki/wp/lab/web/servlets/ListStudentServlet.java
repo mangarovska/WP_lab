@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.web.servlets;
 
+import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.StudentService;
@@ -59,8 +60,11 @@ public class ListStudentServlet extends HttpServlet {
         }
 
         context.setVariable("students", notEnrolled);
+        context.setVariable("courseId", courseId);
 
-        req.getSession().setAttribute("chosenCourse", Long.valueOf(courseId));
+        //course service to get course
+        Course course = courseService.findCourseById(Long.valueOf(courseId));
+        req.getSession().setAttribute("chosenCourse", course);
 
         //resp.setContentType("text/html; charset=UTF-8");
 

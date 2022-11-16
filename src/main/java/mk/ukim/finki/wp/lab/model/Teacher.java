@@ -8,8 +8,9 @@ public class Teacher {
     private String name;
     private String surname;
 
-    public Teacher(String name, String surname) {
-        this.id = (long) (Math.random() * 1000);
+    public Teacher(Long id, String name, String surname) {
+        this.id = id;
+        //this.id = (long) (Math.random() * 1000); // dali treba random?
         this.name = name;
         this.surname = surname;
     }

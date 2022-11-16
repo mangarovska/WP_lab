@@ -17,7 +17,7 @@ public class CourseRepository {
         return CourseDataHolder.courses;
     }
 
-    public Course findById(Long courseId) { // optional -> za vrednost koja moze da ja ima ili nema
+    public Course findById(Long courseId) throws NoSuchElementException{ // optional -> za vrednost koja moze da ja ima ili nema
         Optional<Course> course = CourseDataHolder.courses.stream().filter(c -> c.getCourseId().equals(courseId)).findFirst();
 
         if (course.isEmpty()) {
@@ -41,7 +41,7 @@ public class CourseRepository {
         return course;
     }
 
-    public Optional<Course> saveCourse(String name, String description, Teacher teacher) {
+    public Course saveCourse(String name, String description, Teacher teacher) {
 //        if (name == null && !name.isEmpty() && description == null && !description.isEmpty()) {
 //            throw new ArgumentsNotValidException();
 //        }
@@ -50,7 +50,8 @@ public class CourseRepository {
 
         Course course = new Course(name, description, teacher);
         CourseDataHolder.courses.add(course);
-        return Optional.of(course);
+        return course;
+        //return Optional.of(course);
     }
 
 }

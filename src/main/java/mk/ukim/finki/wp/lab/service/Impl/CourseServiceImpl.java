@@ -13,7 +13,6 @@ import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,15 +48,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course addStudentInCourse(String username, Long courseId) {
 
-        Student studentX = (Student) studentService.listAll().stream().filter(y -> y.getUsername().equals(username)).collect(Collectors.toList()).
-                get(0);
+        Student studentX = (Student) studentService.listAll().stream().filter(y -> y.getUsername().equals(username)).collect(Collectors.toList()).get(0);
         Course courseX = courseRepository.findById(courseId);
         return courseRepository.addStudentToCourse(studentX, courseX);
     }
 
     @Override
-    public Optional<Course> save(String name, String description, Long teacherId) {
-        if (name == null && !name.isEmpty() && description == null && !description.isEmpty()) {
+    public Course saveCourse(String name, String description, Long teacherId) {
+        if (name.isEmpty() && description.isEmpty()) {
             throw new ArgumentsNotValidException();
         }
 
@@ -69,5 +67,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteById(Long id) {
         CourseDataHolder.courses.removeIf(c -> c.getCourseId().equals(id));
+    }
+
+    @Override
+    public Course findCourseById(Long courseId) {
+        return courseRepository.findById(Long.valueOf(courseId));
     }
 }

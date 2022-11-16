@@ -14,10 +14,10 @@ public interface CourseService {
 
     Course addStudentInCourse(String username, Long courseId);
 
-    Optional<Course> save(String name, String description, Long teacherId);
+    Course saveCourse(String name, String description, Long teacherId);
 
     void deleteById(Long id);
 
-
+    Course findCourseById(Long courseId);
 
 }
