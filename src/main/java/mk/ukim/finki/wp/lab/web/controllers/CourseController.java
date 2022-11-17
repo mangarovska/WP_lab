@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.lab.web.controllers;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Teacher;
-import mk.ukim.finki.wp.lab.repository.CourseRepository;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.stereotype.Controller;
@@ -34,13 +33,15 @@ public class CourseController {
         }
 
         List<Course> coursesList = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName)).collect(Collectors.toList());
+        //List<Course> coursesListReversed = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName).reversed()).collect(Collectors.toList());
         model.addAttribute("courses", coursesList);
+        //model.addAttribute("coursesReversed", coursesListReversed);
 
         return "listCourses"; //  html-ot
     }
 
     @GetMapping("/add-course")
-    public String getAddCoursePage(Model model){
+    public String getAddCoursePage(Model model) {
         List<Teacher> teachers = this.teacherService.findAll();
         model.addAttribute("teachers", teachers);
 
@@ -67,6 +68,14 @@ public class CourseController {
         return "redirect:/courses";
     }
 
+    @GetMapping("/coursesReversed") // vaka e so path variable
+    public String reverse(Model model) {
+        List<Course> coursesListReversed = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName).reversed()).collect(Collectors.toList());
+        model.addAttribute("courses", coursesListReversed);
+
+        return "listCoursesReversed";
+    }
+
     @GetMapping("/edit-form/{id}")
     public String editCoursePage(@PathVariable Long id, Model model) {
         if (this.courseService.findCourseById(id) != null) {
@@ -79,7 +88,6 @@ public class CourseController {
 
             return "add-course";
         }
-
         return "redirect:/courses?error=CourseNotFound";
     }
 }
