@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -20,10 +21,10 @@ public class Course {
     @Column(length = 4000)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER) // to many deka se raboti za lista -> se implementira so megutabela
     private List<Student> students;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne //(fetch = FetchType.EAGER)
     private Teacher teacher;
 
     @Enumerated(EnumType.STRING)
@@ -36,14 +37,14 @@ public class Course {
     }
 
     public Course(String name, String description, Teacher teacher) {
-        this.courseId = (long) (Math.random() * 1000); // za random id
+        //this.courseId = (long) (Math.random() * 1000); // za random id
         this.name = name;
         this.description = description;
         this.teacher = teacher;
         students = new ArrayList<>();
     }
 
-    public Course() {
+    public Course(Student studentX, Optional<Course> courseX) {
 
     }
 }

@@ -4,12 +4,14 @@ import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Teacher;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -63,9 +65,12 @@ public class CourseController {
 
     // /products?id=78 -> query parametar
     @GetMapping("/delete/{id}") // vaka e so path variable
-    public String deleteCourse(@PathVariable Long id) {
+    public ResponseEntity deleteCourse(@PathVariable Long id) { // bese String
         courseService.deleteById(id);
-        return "redirect:/courses";
+
+        if(this.courseService.findCourseById(id) == null) return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
+        //return "redirect:/courses";
     }
 
     @GetMapping("/coursesReversed") // vaka e so path variable
@@ -80,7 +85,7 @@ public class CourseController {
     public String editCoursePage(@PathVariable Long id, Model model) {
         if (this.courseService.findCourseById(id) != null) {
 
-            Course course = this.courseService.findCourseById(id);
+            Optional<Course> course = this.courseService.findCourseById(id);
             List<Teacher> teachers = this.teacherService.findAll();
 
             model.addAttribute("course", course);

@@ -18,6 +18,6 @@ public interface CourseService {
 
     void deleteById(Long id);
 
-    Course findCourseById(Long courseId);
+    Optional<Course> findCourseById(Long courseId);
 
 }

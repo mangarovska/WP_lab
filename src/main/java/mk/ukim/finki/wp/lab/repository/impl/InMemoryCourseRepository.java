@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.impl;
 
 import mk.ukim.finki.wp.lab.bootstrap.CourseDataHolder;
 import mk.ukim.finki.wp.lab.model.Course;
@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
-public class CourseRepository {
+public class InMemoryCourseRepository { // od/do DataHolder podatoci
 
     public List<Course> findAllCourses() {
         return CourseDataHolder.courses;

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(name = "list-student-servlet", urlPatterns = "/AddStudent")
 public class ListStudentServlet extends HttpServlet {
@@ -63,7 +64,7 @@ public class ListStudentServlet extends HttpServlet {
         context.setVariable("courseId", courseId);
 
         //course service to get course
-        Course course = courseService.findCourseById(Long.valueOf(courseId));
+        Optional<Course> course = courseService.findCourseById(Long.valueOf(courseId));
         req.getSession().setAttribute("chosenCourse", course);
 
         //resp.setContentType("text/html; charset=UTF-8");
