@@ -30,19 +30,23 @@ public class StudentEnrollmentSummary extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Course course = (Course) req.getSession().getAttribute("chosenCourse");
+        Long chosenCourseId = (Long) req.getSession().getAttribute("chosenCourse");
 
         if (req.getParameter("student") == null) {
-            resp.sendRedirect("/AddStudent?courseId=" + course.getCourseId());
+            resp.sendRedirect("/AddStudent?courseId=" + chosenCourseId);
             return;
         }
 
         String S_username = req.getParameter("student");
-        courseService.addStudentInCourse(S_username, course.getCourseId());
+        courseService.addStudentInCourse(S_username, chosenCourseId);
 
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("students", courseService.listStudentsByCourse(course.getCourseId()));
-        context.setVariable("courseName", courseService.listAllCourses().stream().filter(c -> c.getCourseId().equals(course.getCourseId())).collect(Collectors.toList()).get(0).getName());
+        //context.setVariable("students", courseService.listStudentsByCourse(course.getCourseId()));
+        //context.setVariable("courseName", courseService.listAllCourses().stream().filter(c -> c.getCourseId().equals(course.getCourseId())).collect(Collectors.toList()).get(0).getName());
+
+        context.setVariable("courseName",courseService.findCourseById(chosenCourseId));
+        context.setVariable("students",courseService.listStudentsByCourse(chosenCourseId));
+
         // gi zima site zapisani na predmetot so pomos na courseId
 
 
@@ -51,6 +55,6 @@ public class StudentEnrollmentSummary extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/courses");
+        resp.sendRedirect("/listCourses");
     }
 }
