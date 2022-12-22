@@ -66,7 +66,14 @@ public class CourseServiceImpl implements CourseService {
         Student studentX = studentRepository.findById(username).orElseThrow(StudentNotFound::new);
         Optional<Course> courseX = courseRepository.findById(courseId);
 
-        return courseRepository.save(new Course(studentX, courseX));
+        if (courseX.isPresent()) {
+            Course c = courseX.get();
+            c.addStudent(studentX);
+            courseRepository.save(c);
+        }
+
+        //return courseRepository.save(new Course(studentX, courseX));
+        return null;
     }
 
     @Override

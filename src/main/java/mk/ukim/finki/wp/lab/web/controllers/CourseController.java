@@ -28,7 +28,9 @@ public class CourseController {
     }
 
     @GetMapping
-    public String getCoursesPage(@RequestParam(required = false) String error, Model model) {
+    public String getCoursesPage(@RequestParam(required = false) String error,
+                                 //@RequestParam(required = false) Long id,
+                                 Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -60,17 +62,19 @@ public class CourseController {
         } catch (RuntimeException e) {
             return "redirect:/courses?error=" + e.getMessage();
         }
+
         return "redirect:/courses";
     }
 
     // /products?id=78 -> query parametar
     @GetMapping("/delete/{id}") // vaka e so path variable
-    public ResponseEntity deleteCourse(@PathVariable Long id) { // bese String
-        courseService.deleteById(id);
+    public String deleteCourse(@PathVariable Long id) { // bese String
+        this.courseService.deleteById(id);
 
-        if(this.courseService.findCourseById(id) == null) return ResponseEntity.ok().build();
-        return ResponseEntity.badRequest().build();
-        //return "redirect:/courses";
+//        if(this.courseService.findCourseById(id) == null) return ResponseEntity.ok().build();
+//        return ResponseEntity.badRequest().build();
+
+        return "redirect:/courses";
     }
 
     @GetMapping("/coursesReversed") // vaka e so path variable
@@ -83,13 +87,21 @@ public class CourseController {
 
     @GetMapping("/edit-form/{id}")
     public String editCoursePage(@PathVariable Long id, Model model) {
-        if (this.courseService.findCourseById(id) != null) {
 
-            Optional<Course> course = this.courseService.findCourseById(id);
+        Course c = courseService.findCourseById(id).get();
+
+        if (this.courseService.listAllCourses().contains(c)) { // ako vo tabelata go ima id-to
+
+            //Long pomId = c.getCourseId();
+
+            courseService.deleteById(id);
+
+            //Course c = this.courseService.findCourseById(id).get();
             List<Teacher> teachers = this.teacherService.findAll();
 
-            model.addAttribute("course", course);
+            model.addAttribute("course", c);
             model.addAttribute("teachers", teachers);
+            //model.addAttribute("id", pomId);
 
             return "add-course";
         }

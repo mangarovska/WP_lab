@@ -42,7 +42,7 @@ public class ListStudentServlet extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
         String courseId = req.getParameter("courseId");
-        context.setVariable("courseId", courseId);
+        req.getSession().setAttribute("chosenCourse", Long.valueOf(courseId));
 
         List<Student> enrolled = courseService.listStudentsByCourse(Long.valueOf(courseId)); // gi zima site zapisani na predmetot
         List<Student> all = studentService.listAll(); // site
@@ -64,8 +64,7 @@ public class ListStudentServlet extends HttpServlet {
         context.setVariable("courseId", courseId);
 
         //course service to get course
-        Optional<Course> course = courseService.findCourseById(Long.valueOf(courseId));
-        req.getSession().setAttribute("chosenCourse", course);
+        //Optional<Course> course = courseService.findCourseById(Long.valueOf(courseId));
 
         //resp.setContentType("text/html; charset=UTF-8");
 

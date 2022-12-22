@@ -35,8 +35,8 @@ public class StudentServiceImpl implements StudentService {
         if (s.getUsername().isEmpty() || s.getPassword().isEmpty() || s.getName().isEmpty() || s.getSurname().isEmpty()) {
             throw new IllegalArgumentException();
         }
-        studentRepository.findAll().removeIf(x -> x.getUsername().equals(username)); // remove for rewrite
-        studentRepository.findAll().add(s);
+        studentRepository.findAll(); //.removeIf(x -> x.getUsername().equals(username)); // remove for rewrite
+        studentRepository.save(s);
 
         return s;
     }
