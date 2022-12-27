@@ -21,7 +21,7 @@ public class AppFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        Course course = (Course) request.getSession().getAttribute("chosenCourse");
+        Long course = (Long) request.getSession().getAttribute("chosenCourse");
         String path = request.getServletPath(); // patekata do koja korisnikot probuva da pristapi
 
         if (course == null && !"/AddStudent".equals(path) && !path.contains("/courses") && !"/main.css".equals(path)) {

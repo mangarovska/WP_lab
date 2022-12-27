@@ -9,7 +9,7 @@
     <h1>Students in Course </h1>
 </header>
 <section>
-    <div th:text="${courseName}"></div>
+    <div th:text="${courseName.get().getName()}"></div>
     <ul>
         <li th:each="student : ${students}" th:text="${student.getName()} + ' ' + ${student.getSurname()} + '(' + ${student.getName().toLowerCase()} + '.' + ${student.getSurname().toLowerCase() + ')'}">
         </li>

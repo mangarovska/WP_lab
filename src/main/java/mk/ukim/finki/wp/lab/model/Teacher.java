@@ -21,7 +21,7 @@ public class Teacher {
 
     private String surname;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfEmployment;
 
     public Teacher(Long id, String name, String surname) {
