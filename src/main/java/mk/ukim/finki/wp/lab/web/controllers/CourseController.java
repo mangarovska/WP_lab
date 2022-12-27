@@ -1,3 +1,4 @@
+
 package mk.ukim.finki.wp.lab.web.controllers;
 
 import mk.ukim.finki.wp.lab.model.Course;

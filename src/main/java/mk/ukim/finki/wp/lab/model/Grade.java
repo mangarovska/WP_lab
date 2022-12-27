@@ -33,6 +33,10 @@ public class Grade {
         this.timestamp = timestamp;
     }
 
+    public Grade(LocalDateTime timestamp, Character c, Course course, Student student) {
+
+    }
+
     public Grade() {
 
     }
