@@ -41,16 +41,19 @@ public class CourseController {
         //List<Course> coursesListReversed = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName).reversed()).collect(Collectors.toList());
         model.addAttribute("courses", coursesList);
         //model.addAttribute("coursesReversed", coursesListReversed);
+        model.addAttribute("bodyContent", "listCourses");
 
-        return "listCourses"; //  html-ot
+        //return "listCourses"; //  html-ot
+        return "master-template";
     }
 
     @GetMapping("/add-course")
     public String getAddCoursePage(Model model) {
         List<Teacher> teachers = this.teacherService.findAll();
         model.addAttribute("teachers", teachers);
-
-        return "add-course";
+        model.addAttribute("bodyContent", "add-course");
+        //return "add-course";
+        return "master-template";
     }
 
     @PostMapping("/added-course")
@@ -58,6 +61,7 @@ public class CourseController {
                              @RequestParam String description,
                              @RequestParam Long id) {
 
+        //Course c = new Course(name,description);
         try {
             courseService.saveCourse(name, description, id);
         } catch (RuntimeException e) {
@@ -82,8 +86,9 @@ public class CourseController {
     public String reverse(Model model) {
         List<Course> coursesListReversed = courseService.listAllCourses().stream().sorted(Comparator.comparing(Course::getName).reversed()).collect(Collectors.toList());
         model.addAttribute("courses", coursesListReversed);
+        model.addAttribute("bodyContent2", "listCoursesReversed");
 
-        return "listCoursesReversed";
+        return "master-templateReversed";
     }
 
     @GetMapping("/edit-form/{id}")

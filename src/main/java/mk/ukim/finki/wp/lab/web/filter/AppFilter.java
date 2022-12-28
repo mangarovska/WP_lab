@@ -24,7 +24,7 @@ public class AppFilter implements Filter {
         Long course = (Long) request.getSession().getAttribute("chosenCourse");
         String path = request.getServletPath(); // patekata do koja korisnikot probuva da pristapi
 
-        if (course == null && !"/AddStudent".equals(path) && !path.contains("/courses") && !"/main.css".equals(path)) {
+        if (course == null && !"/AddStudent".equals(path) && !path.contains("/courses") && !"/main.css".equals(path) && !"/login".equals(path)) {
             response.sendRedirect("/courses?error=CourseNotSelectedException");
         } else {
             filterChain.doFilter(servletRequest, servletResponse); // ja prodolzuvame verigata
