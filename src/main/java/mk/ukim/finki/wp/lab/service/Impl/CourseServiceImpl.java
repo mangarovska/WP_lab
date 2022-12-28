@@ -98,4 +98,9 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findById(courseId);
 
     }
+
+    @Override
+    public Course getCourse() {
+        return null;
+    }
 }

@@ -20,4 +20,5 @@ public interface CourseService {
 
     Optional<Course> findCourseById(Long courseId);
 
+    Course getCourse();
 }
