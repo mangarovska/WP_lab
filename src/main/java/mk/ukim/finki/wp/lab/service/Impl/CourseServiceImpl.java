@@ -3,10 +3,7 @@ package mk.ukim.finki.wp.lab.service.Impl;
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.model.Teacher;
-import mk.ukim.finki.wp.lab.model.exceptions.ArgumentsNotValidException;
-import mk.ukim.finki.wp.lab.model.exceptions.CourseNotFound;
-import mk.ukim.finki.wp.lab.model.exceptions.StudentNotFound;
-import mk.ukim.finki.wp.lab.model.exceptions.TeacherDoesNotExistException;
+import mk.ukim.finki.wp.lab.model.exceptions.*;
 import mk.ukim.finki.wp.lab.repository.jpa.CourseRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.StudentRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.TeacherRepository;
@@ -100,7 +97,24 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course getCourse() {
-        return null;
+    public Optional<Course> getCourse(Long courseId) {
+        return courseRepository.findById(courseId);
+    }
+
+    @Override
+    public Course saveCourse(Course course, long l) {
+
+        //vidi dali se prazni name ili description
+        //I don't know if this is even needed
+        if (course.getName().isEmpty())
+            throw new NameException();
+        if (course.getDescription().isEmpty())
+            throw new DescriptionException();
+
+        //vidi dali go ima toj profesor
+        Teacher teacher = teacherRepository.findById(l).orElseThrow(TeacherDoesNotExistException::new);
+        course.setTeacher(teacher);
+
+        return courseRepository.save(course);
     }
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet(name = "list-student-servlet", urlPatterns = "/AddStudent")
+@WebServlet(name = "list-student-servlet", urlPatterns = "/AddStudentServlet")
 public class ListStudentServlet extends HttpServlet {
 
     private final SpringTemplateEngine springTemplateEngine;
@@ -44,7 +44,7 @@ public class ListStudentServlet extends HttpServlet {
         String courseId = req.getParameter("courseId");
         //req.getSession().setAttribute("chosenCourse", Long.valueOf(courseId));
 
-        Course course = courseService.getCourse();
+        Optional<Course> course = courseService.getCourse(Long.valueOf(courseId));
         //req.getSession().setAttribute("course", course.get()); // ===============================================================
 
         List<Student> enrolled = courseService.listStudentsByCourse(Long.valueOf(courseId)); // gi zima site zapisani na predmetot
@@ -71,6 +71,9 @@ public class ListStudentServlet extends HttpServlet {
 
         //resp.setContentType("text/html; charset=UTF-8");
 
-        springTemplateEngine.process("listStudents.html", context, resp.getWriter());
+        //context.setVariable("bodyContent","listStudents");
+
+        springTemplateEngine.process("listStudents.htl", context, resp.getWriter());
+        //springTemplateEngine.process("master-template.html", context, resp.getWriter());
     }
 }

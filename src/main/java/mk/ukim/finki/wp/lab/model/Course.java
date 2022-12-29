@@ -44,16 +44,19 @@ public class Course {
         students = new ArrayList<>();
     }
 
+    public Course(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
 //    public Course(Student studentX, Optional<Course> courseX) {
 //        this.name = name;
 //        this.description = description;
 //        this.students = students;
-//
-//
 //    }
 
-    public void addStudent(Student student){
-        students.removeIf(s->s.getUsername().equals(student.getUsername()));
+    public void addStudent(Student student) {
+        students.removeIf(s -> s.getUsername().equals(student.getUsername()));
         students.add(student);
     }
 

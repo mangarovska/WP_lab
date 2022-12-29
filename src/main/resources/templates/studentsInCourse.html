@@ -16,10 +16,8 @@
 <!--            crossorigin="anonymous"></script>-->
 <!--</head>-->
 
-
-<div lang="en"
-     xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:th="http://www.thymeleaf.org">
+<div class="container mb-4"
+     xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <section class="jumbotron text-center">
         <div class="container">
@@ -89,7 +87,7 @@
             </div>
         </div>
         <div>
-            <a th:href="@{'/AddStudent'}"
+            <a th:href="@{'/courses'}"
                class="btn btn-sm btn-info">
                 <i class="fa fa-trash">Back</i>
             </a>

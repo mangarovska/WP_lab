@@ -20,5 +20,7 @@ public interface CourseService {
 
     Optional<Course> findCourseById(Long courseId);
 
-    Course getCourse();
+    Optional<Course> getCourse(Long courseId);
+
+    Course saveCourse(Course course, long l);
 }
