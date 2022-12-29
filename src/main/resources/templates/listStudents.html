@@ -1,40 +1,44 @@
-<div class="container mb-4" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
     <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Student Enrollment</h1>
+            <h3 class="jumbotron-heading"></h3>
+        </div>
     </section>
 
     <head>
         <meta charset="utf-8">
         <title>Add new Student to Course</title>
-        <style type="text/css">
-            body {
-                width: 800px;
-                margin: auto;
-            }
+        <!--        <style type="text/css">-->
+        <!--            body {-->
+        <!--                width: 800px;-->
+        <!--                margin: auto;-->
+        <!--            }-->
 
-            table {
-                width: 100%;
-            }
+        <!--            table {-->
+        <!--                width: 100%;-->
+        <!--            }-->
 
-            table, td, th {
-                border: 1px solid black;
-                padding: 3px 2px;
-            }
+        <!--            table, td, th {-->
+        <!--                border: 1px solid black;-->
+        <!--                padding: 3px 2px;-->
+        <!--            }-->
 
-            section {
-                float: left;
-                margin: 0 1.5%;
-                width: 63%;
-            }
+        <!--            section {-->
+        <!--                float: left;-->
+        <!--                margin: 0 1.5%;-->
+        <!--                width: 63%;-->
+        <!--            }-->
 
-            aside {
-                float: right;
-                margin: 0 1.5%;
-                width: 30%;
-            }
-        </style>
+        <!--            aside {-->
+        <!--                float: right;-->
+        <!--                margin: 0 1.5%;-->
+        <!--                width: 30%;-->
+        <!--            }-->
+        <!--        </style>-->
 
         <script>
-
             $(document).ready(
                 function () {
                     document.getElementById("create").style.display = "none";
@@ -47,13 +51,13 @@
             function hide() {
                 document.getElementById("forCreate").style.display = "none";
             }
-
         </script>
+
     </head>
-    <body>
-    <header>
-        <h1>Student Enrollment - Select the Student </h1>
-    </header>
+    <body class="text-center">
+    <!--    <header>-->
+    <!--        <h1>Student Enrollment - Select the Student </h1>-->
+    <!--    </header>-->
     <section id="forCreate" style="display: none">
         <form th:method="POST" th:action="@{/createStudent}">
             <label for='username'>Username:</label><input id='username' type='text' name='username'/><br/>
@@ -63,17 +67,18 @@
             <input type='submit' value='Submit (add student)' onclick="hide()"/>
         </form>
     </section>
-
+    </br>
     <section>
         <h2>Select the student to enroll:</h2>
         <!--    dodava studenti na kurs-->
-        <form th:action="@{/studentEnrollmentSummary}" th:method="POST">
+        <form th:action="@{/StudentEnrollmentSummary}" th:method="POST">
             <div th:each="student: ${students}"><input type="radio" name="student" th:value="${student.getUsername()}"
                                                        th:text="${student.getName()} + ' ' + ${student.getSurname()}"/>
             </div>
             <br>
             <input type='submit' value='Submit'/>
         </form>
+        </br>
 
         <!--    <a href='/createStudent' type='button'>Create New Student</a> <br/> <br/>-->
         <!--    <input type="radio" name="size" value="petar.petrov"> Петар Петров <br/>-->

@@ -16,12 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("studentEnrollmentSummary")
+@RequestMapping("StudentEnrollmentSummary")
 public class StudentEnrollmentSummaryController {
     public final SpringTemplateEngine springTemplateEngine;
-
     public final StudentService studentService;
-
     public final CourseService courseService;
 
     public StudentEnrollmentSummaryController(SpringTemplateEngine springTemplateEngine, StudentService studentService, CourseService courseService) {

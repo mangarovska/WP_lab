@@ -1,80 +1,95 @@
-<div class="container mb-4" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--class="container mb-4" OVA NE - STESNUVA-->
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">COURSES</h1>
-            <h3 class="jumbotron-heading">Select your course</h3>
+            <h1 class="jumbotron-heading">Welcome and Choose a Course:</h1>
+            <h3 class="jumbotron-heading">- All courses -</h3>
         </div>
     </section>
 
-    <div class="row">
-        <div class="col-12" th:if="${courses.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <th scope="col">Selection</th>
-                        </th:block>
-                        <th scope="col">Course name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Teacher</th>
-                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <th scope="col">Choose action</th>
-                        </th:block>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                        <form th:action="@{/courses/reversed}" th:method="GET">
-                            <tr><input type='submit' value='Shuffle courses' class="shuffle"/></tr>
-                        </form>
-                    </th:block>
+    <div class="container mb-4"> <!--OVA-->
+        <div class="row">
+            <div class="col-12" th:if="${courses.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
 
-                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                        <form th:action="@{/courses/add-course}" th:method="GET">
-                            <tr><input type='submit' value='Add course'/></tr>
-                        </form>
-                    </th:block>
-
-
-                    <form th:action="@{/AddStudent}" th:method="GET">
-                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <tr><input type='submit' value='Select course'/></tr>
-                        </th:block>
-                        <tr th:each="course : ${courses}" class="product">
+                        <thead>
+                        <tr>
                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                <td><input type="radio" name="courseId" th:value="${course.getCourseId()}"/></td>
+                                <th scope="col">Select</th>
                             </th:block>
-                            <td th:text="${course.getName()}"></td>
-                            <td th:text="${course.getDescription()}"></td>
-                            <td th:text="${course.getTeacher() != null}
-                                ? ${course.getTeacher().getName()} + ' ' + ${course.getTeacher().getSurname()} : 'No Teacher'"></td>
-                            <td class="text-right">
-                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a th:href="@{'/courses/delete/{id}' (id=${course.getCourseId()})}"
-                                       class="btn btn-sm btn-danger delete-product">
-                                        <i class="fa fa-trash">Delete</i>
-
-                                    </a>
-                                </th:block>
-                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}"
-                                       class="btn btn-sm btn-info edit-product">
-                                        <i class="fa fa-trash">Edit</i>
-                                    </a>
-                                </th:block>
-                            </td>
+                            <th scope="col">Course name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Teacher</th>
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <th scope="col" class="text-center">Options</th>
+                            </th:block>
                         </tr>
+                        </thead>
 
-                    </form>
-                    </tbody>
+                        <tbody>
 
+                        <form th:action="@{/AddStudent}" th:method="GET">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <div class="text-center"><input type='submit' value='Select course'/></div>
+                            </th:block>
+                            </br>
+                            <tr th:each="course : ${courses}" class="course">
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <td>
+                                        <input type="radio" name="courseId" th:value="${course.getCourseId()}"/>
+                                    </td>
+                                </th:block>
+                                <td th:text="${course.getName()}"></td>
+                                <td th:text="${course.getDescription()}"></td>
+                                <td th:text="${course.getTeacher() != null}
+                                ? ${course.getTeacher().getName()} + ' ' + ${course.getTeacher().getSurname()} : 'No Teacher'"></td>
+                                <td class="text-center">
+                                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a th:href="@{'/courses/delete/{id}' (id=${course.getCourseId()})}"
+                                           class="btn btn-sm btn-danger delete-course">
+                                            <i class="fa fa-trash">Delete</i>
 
-                </table>
+                                        </a>
+                                        <!--                                    </th:block>-->
+
+                                        <!--                                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+                                        <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}"
+                                           class="btn btn-sm btn-info edit-product">
+                                            <i class="fa fa-trash">Edit</i>
+                                        </a>
+                                    </th:block>
+
+                                </td>
+                            </tr>
+
+                        </form>
+
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/courses/add-course}" th:method="GET">
+                                <div class="text-center">
+                                    <input type='submit' value='Add course'/></div>
+                            </form>
+                        </th:block>
+                        </br>
+
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/courses/coursesReversed}" th:method="GET">
+                                <div class="text-center">
+                                    <input type='submit' value='Shuffle' class="shuffle"/>
+                                </div>
+                            </form>
+                        </th:block>
+                        </br>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
